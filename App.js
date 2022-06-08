@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
-import { Button, Text, TextInput, View, FlatList, Modal, TouchableOpacity } from 'react-native';
+import { Button, Text, View, FlatList, TouchableOpacity } from 'react-native';
 import { styles } from "./styles"
+import CustomModal from "./src/components/modal/index"
+import ListItem from "./src/components/list-item/index"
+import Input from "./src/components/input/index"
 
 export default function App() {
   const [text, setText] = useState("");
@@ -22,12 +25,7 @@ export default function App() {
   }
 
   const renderItem = ({item}) => (
-    <View key={item.id} style={styles.containerItemList}>
-          <Text style={styles.itemList}>{item.value}</Text>
-          <TouchableOpacity onPress={() => onHandleModal(item.id)} style={styles.deleteButton}>
-            <Text style={styles.deleteButtonText}>X</Text>
-          </TouchableOpacity>
-    </View>
+    <ListItem item={item} onHandleModal={onHandleModal}/>
   )
 
   const keyExtractor = (item) => item.id.toString();
@@ -47,7 +45,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <View style={styles.content}> 
-      <TextInput 
+      <Input 
       placeholder='new task'
       placeholderTextColor={"#000"}
       style={styles.input}
@@ -62,7 +60,7 @@ export default function App() {
         keyExtractor={keyExtractor}
         style={styles.containerList} 
       />
-      <Modal
+      <CustomModal
       animationtype='slide'
       visible={modalVisible}
       onRequestClose={() => null}
@@ -82,7 +80,7 @@ export default function App() {
         <Button title="Remove" onPress={() => onHandleDelete(itemSelected.id)} color="#6B4E4E"></Button>
       </View>
         
-      </Modal>
+      </CustomModal>
       
     </View>
   );
